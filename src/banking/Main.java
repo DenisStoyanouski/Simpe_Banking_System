@@ -1,9 +1,6 @@
 package banking;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -40,7 +37,6 @@ public class Main {
                     break;
             }
         } while (!"0".equals(input));
-
     }
 
     private static void createAnAccount() {
@@ -75,10 +71,53 @@ public class Main {
 
 
     private static void logIntoAccount() {
-        System.out.println("log in account");
+        String cardNumber;
+        String pin;
+        do {
+            System.out.println("Enter your card number:");
+            cardNumber = input();
+            System.out.println("Enter your PIN:");
+            pin = input();
+            if (checkValidation(cardNumber, pin)) {
+                System.out.println("You have successfully logged in!");
+                startAccount();
+                break;
+            } else {
+                System.out.println("Wrong card number or PIN!");
+            }
+        } while (checkValidation(cardNumber, pin));
+    }
+
+    private static void startAccount() {
+        String input;
+        do {
+            String accountMenu = """
+                1. Balance
+                2. Log out
+                0. Exit
+                """;
+            System.out.println(accountMenu);
+            input = input();
+            switch(input) {
+                case "1":
+                    System.out.println("Balance: 0");
+                    System.out.println();
+                    break;
+                case "2":
+                    System.out.println("You have successfully logged out!");
+                    break;
+                case "0" : exit();
+                    break;
+            }
+        } while (!"2".equals(input));
+    }
+
+    private static boolean checkValidation(String cardNumber, String pin) {
+        return Objects.equals(cardStorage.get(cardNumber), pin);
     }
 
     private static void exit() {
+        System.out.println("Bye!");
         System.exit(0);
     }
 
