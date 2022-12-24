@@ -1,6 +1,7 @@
 package banking;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -61,21 +62,30 @@ public class Main {
     }
 
     private static String generateChecksum(String cardNumber) {
-        ArrayList<Integer> number = new ArrayList<>((Collection) Arrays.stream(cardNumber.split("")).map(Integer::parseInt));
-        for (Integer num : number) {
-            if (num % 2 != 0) {
-                num *=2;
+        ArrayList<Integer> number = new ArrayList<>(Arrays.stream(cardNumber.split("")).map(Integer::parseInt).collect(Collectors.toList()));
+        System.out.println(number);
+        // The Luhn algorithm
+        // Multiply odd digits by 2
+        for (int i = 0; i < number.size(); i++) {
+            if (number.get(i) % 2 != 0) {
+                number.set(i, number.get(i) * 2);
             }
         }
-
-        for (Integer num : number) {
-            if (num > 9) {
-                num -= 9;
+        System.out.println(number.toString());
+       // Subtract 9 to numbers over 9
+        for (int i = 0; i < number.size(); i++) {
+            if (number.get(i) > 9) {
+                number.set(i, number.get(i) - 9);
             }
         }
+        System.out.println(number.toString());
+        // Add all numbers
         int sum = number.stream().mapToInt(Integer::intValue).sum();
+        // If the received number is divisible by 10 with the remainder equal to zero, then this number is valid;
+        // otherwise, the card number is not valid.
+        // Add 16th number which satisfies this condition
         number.add(10 - sum % 10);
-        return number.toString();
+        return number.toString().replaceAll("\\D", "");
     }
 
     private static String generatePIN() {
