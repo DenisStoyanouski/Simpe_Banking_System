@@ -19,8 +19,7 @@ public class Main {
             String menu = """
                 1. Create an account
                 2. Log into account
-                0. Exit
-                """;
+                0. Exit""";
             System.out.println(menu);
             input = input();
             switch (input) {
@@ -41,6 +40,7 @@ public class Main {
     }
 
     private static void createAnAccount() {
+        System.out.println();
         System.out.println("Your card has been created");
         generateCard();
     }
@@ -53,39 +53,39 @@ public class Main {
         System.out.println(cardNumber);
         System.out.println("Your card PIN:");
         System.out.println(pin);
+        System.out.println();
     }
 
     private static String generateCardNumber() {
         Random random = new Random();
         int customerAccountNumber = random.nextInt(999999999);
-        return  generateChecksum(BIN + String.format("%9d",customerAccountNumber).replace(" ","0"));
+        String cardNumber = BIN + String.format("%9d",customerAccountNumber).replace(" ","0");
+        return  generateChecksum(cardNumber);
     }
 
     private static String generateChecksum(String cardNumber) {
         ArrayList<Integer> number = new ArrayList<>(Arrays.stream(cardNumber.split("")).map(Integer::parseInt).collect(Collectors.toList()));
-        System.out.println(number);
         // The Luhn algorithm
         // Multiply odd digits by 2
-        for (int i = 0; i < number.size(); i++) {
-            if (number.get(i) % 2 != 0) {
-                number.set(i, number.get(i) * 2);
-            }
+        for (int i = 0; i < number.size(); i += 2) {
+            number.set(i, number.get(i) * 2);
         }
-        System.out.println(number.toString());
        // Subtract 9 to numbers over 9
         for (int i = 0; i < number.size(); i++) {
             if (number.get(i) > 9) {
                 number.set(i, number.get(i) - 9);
             }
         }
-        System.out.println(number.toString());
         // Add all numbers
         int sum = number.stream().mapToInt(Integer::intValue).sum();
         // If the received number is divisible by 10 with the remainder equal to zero, then this number is valid;
         // otherwise, the card number is not valid.
         // Add 16th number which satisfies this condition
-        number.add(10 - sum % 10);
-        return number.toString().replaceAll("\\D", "");
+        int checksum = 10 - sum % 10;
+        if (checksum == 10) {
+            checksum = 0;
+        }
+        return cardNumber.concat(String.valueOf(checksum));
     }
 
     private static String generatePIN() {
@@ -151,5 +151,4 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
-
 }
