@@ -57,9 +57,25 @@ public class Main {
     private static String generateCardNumber() {
         Random random = new Random();
         int customerAccountNumber = random.nextInt(999999999);
-        int checksum = random.nextInt(9);
+        return  generateChecksum(BIN + String.format("%9d",customerAccountNumber).replace(" ","0"));
+    }
 
-        return BIN + String.format("%7d",customerAccountNumber).replace(" ","0") + checksum;
+    private static String generateChecksum(String cardNumber) {
+        ArrayList<Integer> number = new ArrayList<>((Collection) Arrays.stream(cardNumber.split("")).map(Integer::parseInt));
+        for (Integer num : number) {
+            if (num % 2 != 0) {
+                num *=2;
+            }
+        }
+
+        for (Integer num : number) {
+            if (num > 9) {
+                num -= 9;
+            }
+        }
+        int sum = number.stream().mapToInt(Integer::intValue).sum();
+        number.add(10 - sum % 10);
+        return number.toString();
     }
 
     private static String generatePIN() {
