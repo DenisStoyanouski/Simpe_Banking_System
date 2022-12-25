@@ -34,4 +34,18 @@ public class DataBase {
             e.printStackTrace();
         }
     }
+    static void addCard(String number, String pin) {
+        try (Connection con = dataSource.getConnection()) {
+            if (con.isValid(5)) {
+                try (Statement statement = con.createStatement()) {
+                    // Statement execution
+                    int i = statement.executeUpdate(String.format("INSERT INTO card VALUES (1, %s, %s, null)", number, pin));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -54,6 +54,7 @@ public class Main {
     private static void generateCard() {
         String cardNumber = generateCardNumber();
         String pin = generatePIN();
+        addCard(cardNumber, pin);
         cardStorage.put(cardNumber, pin);
         System.out.println("Your card number:");
         System.out.println(cardNumber);
