@@ -34,12 +34,12 @@ public class DataBase {
             e.printStackTrace();
         }
     }
-    static void addCard(String number, String pin) {
+    static void addCard(int customerAccountNumber, String number, String pin) {
         try (Connection con = dataSource.getConnection()) {
             if (con.isValid(5)) {
                 try (Statement statement = con.createStatement()) {
                     // Statement execution
-                    int i = statement.executeUpdate(String.format("INSERT INTO card VALUES (1, %s, %s, null)", number, pin));
+                    int i = statement.executeUpdate(String.format("INSERT INTO card VALUES (%d, %s, %s, 0)", customerAccountNumber, number, pin));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

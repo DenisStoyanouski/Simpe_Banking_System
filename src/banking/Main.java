@@ -8,6 +8,7 @@ import static banking.DataBase.*;
 public class Main {
 
     final private static String BIN = "400000";
+    private static int customerAccountNumber;
 
     final private static Map<String, String> cardStorage = new HashMap<>();
 
@@ -54,7 +55,7 @@ public class Main {
     private static void generateCard() {
         String cardNumber = generateCardNumber();
         String pin = generatePIN();
-        addCard(cardNumber, pin);
+        addCard(customerAccountNumber, cardNumber, pin);
         cardStorage.put(cardNumber, pin);
         System.out.println("Your card number:");
         System.out.println(cardNumber);
@@ -65,7 +66,7 @@ public class Main {
 
     private static String generateCardNumber() {
         Random random = new Random();
-        int customerAccountNumber = random.nextInt(999999999);
+        customerAccountNumber = random.nextInt(999999999);
         String cardNumber = BIN + String.format("%9d",customerAccountNumber).replace(" ","0");
         return  generateChecksum(cardNumber);
     }
