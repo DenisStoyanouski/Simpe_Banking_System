@@ -3,6 +3,8 @@ package banking;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static banking.DataBase.*;
+
 public class Main {
 
     final private static String BIN = "400000";
@@ -10,16 +12,20 @@ public class Main {
     final private static Map<String, String> cardStorage = new HashMap<>();
 
     public static void main(String[] args) {
+        if (args.length != 0) {
+            String fileName = args[0].replaceAll("-", "");
+            createDB(fileName);
+        }
+        createDB("database");
         startMenu();
     }
 
     private static void startMenu() {
         String input;
         do {
-            String menu = """
-                1. Create an account
-                2. Log into account
-                0. Exit""";
+            String menu = "1. Create an account\n" +
+                            "2. Log into account\n" +
+                            "0. Exit\n";
             System.out.println(menu);
             input = input();
             switch (input) {
@@ -117,11 +123,9 @@ public class Main {
     private static void startAccount() {
         String input;
         do {
-            String accountMenu = """
-                1. Balance
-                2. Log out
-                0. Exit
-                """;
+            String accountMenu = "1. Balance\n" +
+                                "2. Log out\n" +
+                                "0. Exit\n";
             System.out.println(accountMenu);
             input = input();
             switch(input) {
