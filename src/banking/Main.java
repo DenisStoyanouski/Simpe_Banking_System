@@ -113,14 +113,14 @@ public class Main {
             cardNumber = input();
             System.out.println("Enter your PIN:");
             pin = input();
-            if (checkValidation(cardNumber, pin)) {
+            if (logIn(cardNumber, pin)) {
                 System.out.println("You have successfully logged in!");
                 startAccount();
                 break;
             } else {
                 System.out.println("Wrong card number or PIN!");
             }
-        } while (checkValidation(cardNumber, pin));
+        } while (logIn(cardNumber, pin));
     }
 
     private static void startAccount() {
