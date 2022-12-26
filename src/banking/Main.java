@@ -10,15 +10,11 @@ public class Main {
     final private static String BIN = "400000";
     private static int customerAccountNumber;
 
-    final private static Map<String, String> cardStorage = new HashMap<>();
-
     public static void main(String[] args) {
         if (args.length != 0) {
-            String fileName = args[0].replaceAll("-", "");
-            String fileExtension = args[1];
-            createDB(fileName, fileExtension);
+            String fileName = args[1];
+            createDB(fileName);
         }
-        createDB("database", "s3db");
         startMenu();
     }
 
@@ -57,7 +53,6 @@ public class Main {
         String cardNumber = generateCardNumber();
         String pin = generatePIN();
         addCard(customerAccountNumber, cardNumber, pin);
-        cardStorage.put(cardNumber, pin);
         System.out.println("Your card number:");
         System.out.println(cardNumber);
         System.out.println("Your card PIN:");
@@ -143,10 +138,6 @@ public class Main {
                     break;
             }
         } while (!"2".equals(input));
-    }
-
-    private static boolean checkValidation(String cardNumber, String pin) {
-        return Objects.equals(cardStorage.get(cardNumber), pin);
     }
 
     private static void exit() {
