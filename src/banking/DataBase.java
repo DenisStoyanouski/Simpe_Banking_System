@@ -79,5 +79,29 @@ public class DataBase {
         return check;
     }
 
+    static int getBalance(String number, String pin) {
+        int balance = 0;
+        try (Connection con = dataSource.getConnection()) {
+            if (con.isValid(5)) {
+                try (Statement statement = con.createStatement()) {
+                    try (ResultSet card = statement.executeQuery(String.format("SELECT * FROM card where number = '%s' AND pin = '%s'", number, pin))) {
+                        while (card.next()) {
+                            // Retrieve column values
+                            int id = card.getInt("id");
+                            String numberDB = card.getString("number");
+                            String pinDB = card.getString("pin");
+                            balance = card.getInt("balance");
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return balance;
+    }
+
 
 }

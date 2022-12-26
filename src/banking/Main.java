@@ -115,7 +115,7 @@ public class Main {
             pin = input();
             if (logIn(cardNumber, pin)) {
                 System.out.println("You have successfully logged in!");
-                startAccount();
+                startAccount(cardNumber, pin);
                 break;
             } else {
                 System.out.println("Wrong card number or PIN!");
@@ -123,7 +123,7 @@ public class Main {
         } while (logIn(cardNumber, pin));
     }
 
-    private static void startAccount() {
+    private static void startAccount(String cardNumber, String pin) {
         String input;
         do {
             String accountMenu = "1. Balance\n" +
@@ -133,7 +133,7 @@ public class Main {
             input = input();
             switch(input) {
                 case "1":
-                    System.out.println("Balance: 0");
+                    System.out.printf("Balance: %d", getBalance(cardNumber, pin));
                     System.out.println();
                     break;
                 case "2":
