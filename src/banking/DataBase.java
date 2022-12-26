@@ -9,9 +9,9 @@ import java.sql.Statement;
 public class DataBase {
     static String url;
     static SQLiteDataSource dataSource;
-    static void createDB (String fileName) {
+    static void createDB (String fileName, String fileExtension) {
 
-        url = String.format("jdbc:sqlite:./%s.db", fileName);
+        url = String.format("jdbc:sqlite:./Simple Banking System/task/%s.%s", fileName, fileExtension);
 
         dataSource = new SQLiteDataSource();
 
@@ -39,7 +39,7 @@ public class DataBase {
             if (con.isValid(5)) {
                 try (Statement statement = con.createStatement()) {
                     // Statement execution
-                    int i = statement.executeUpdate(String.format("INSERT INTO card VALUES (%d, %s, %s, 0)", customerAccountNumber, number, pin));
+                    int i = statement.executeUpdate(String.format("INSERT INTO card VALUES (%d, '%s', '%s', 0)", customerAccountNumber, number, pin));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

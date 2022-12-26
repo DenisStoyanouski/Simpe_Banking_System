@@ -15,9 +15,10 @@ public class Main {
     public static void main(String[] args) {
         if (args.length != 0) {
             String fileName = args[0].replaceAll("-", "");
-            createDB(fileName);
+            String fileExtension = args[1];
+            createDB(fileName, fileExtension);
         }
-        createDB("database");
+        createDB("database", "s3db");
         startMenu();
     }
 
