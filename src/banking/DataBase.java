@@ -119,7 +119,7 @@ public class DataBase {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            System.out.println("Income was added");
+            System.out.println("Income was added!");
         } catch (NumberFormatException e) {
             System.out.println("You entered not number. Try again");
         }
@@ -192,7 +192,7 @@ public class DataBase {
             if (con.isValid(5)) {
                 try (Statement statement = con.createStatement()) {
                     try (ResultSet card = statement.executeQuery(String.format("SELECT * FROM card where number = '%s'", cardNumber))) {
-                        if (!card.wasNull()) {
+                        if (card.next()) {
                             check = true;
                         }
                     }
