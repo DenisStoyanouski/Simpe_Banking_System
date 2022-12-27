@@ -69,7 +69,7 @@ public class Main {
         return  generateChecksum(cardNumber);
     }
 
-    private static String generateChecksum(String cardNumber) {
+    static String generateChecksum(String cardNumber) {
         ArrayList<Integer> number = new ArrayList<>(Arrays.stream(cardNumber.split("")).map(Integer::parseInt).collect(Collectors.toList()));
         // The Luhn algorithm
         // Multiply odd indexes by 2
@@ -134,7 +134,7 @@ public class Main {
             input = input();
             switch(input) {
                 case "1":
-                    System.out.printf("Balance: %d", getBalance(cardNumber, pin));
+                    System.out.printf("Balance: %d", getBalance(cardNumber));
                     System.out.println();
                     break;
                 case "2" : addIncome();

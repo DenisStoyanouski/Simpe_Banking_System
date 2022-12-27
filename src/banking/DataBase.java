@@ -5,6 +5,7 @@ import org.sqlite.SQLiteDataSource;
 import java.sql.*;
 import java.util.Objects;
 
+import static banking.Main.generateChecksum;
 import static banking.Main.input;
 
 public class DataBase {
@@ -77,13 +78,13 @@ public class DataBase {
         return check;
     }
 
-    static int getBalance(String number, String pin) {
+    static int getBalance(String number) {
         int balance = 0;
         try (Connection con = dataSource.getConnection()) {
             if (con.isValid(5)) {
                 try (Statement statement = con.createStatement()) {
                     try (ResultSet card = statement.executeQuery(String.format("SELECT * FROM card" +
-                            " where number = '%s' AND pin = '%s'", number, pin))) {
+                            " where number = '%s'", number))) {
                         while (card.next()) {
                             // Retrieve column values
                             balance = card.getInt("balance");
@@ -149,8 +150,60 @@ public class DataBase {
         String cardTo = input();
         if (Objects.equals(cardTo, cardNumber)) {
             System.out.println("You can't transfer money to the same account!");
+        } else if (!cardTo.matches("\\d{16,19}") || !Objects.equals(generateChecksum(cardTo.substring(0, cardTo.length() - 2)),cardTo)) {
+            System.out.println("Probably you made a mistake in the card number. Please try again!");
+        } else if (!checkByNumber(cardTo)) {
+            System.out.println("Such a card does not exist.");
+        } else {
+            System.out.println("Enter how much money you want to transfer");
+            String input = input();
+            if (input.matches("\\d*")) {
+                int transfer = Integer.parseInt(input());
+                if (transfer >= getBalance(cardNumber)) {
+                    changeBalance(cardNumber, transfer, "-");
+                    changeBalance(cardTo, transfer, "+");
+                    System.out.println("Success!");
+                }
+            }
         }
+    }
 
+    private static void changeBalance(String cardNumber, int transfer, String s) {
+        String insertIncome = "UPDATE card SET balance = balance ? ? WHERE number = ?";
+        try (Connection con = dataSource.getConnection()) {
+            if (con.isValid(5)) {
+                try (PreparedStatement statement = con.prepareStatement(insertIncome)) {
+                    statement.setString(1, s);
+                    statement.setInt(1, transfer);
+                    statement.setString(1, cardNumber);
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static boolean checkByNumber(String cardNumber) {
+        boolean check = false;
+        try (Connection con = dataSource.getConnection()) {
+            if (con.isValid(5)) {
+                try (Statement statement = con.createStatement()) {
+                    try (ResultSet card = statement.executeQuery(String.format("SELECT * FROM card where number = '%s'", cardNumber))) {
+                        if (!card.wasNull()) {
+                            check = true;
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return check;
     }
 
 }
