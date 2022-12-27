@@ -125,7 +125,7 @@ public class DataBase {
     }
 
     static void closeAccount(String cardNumber) {
-        String deleteAccount = "DELETE * FROM card WHERE number = '?'";
+        String deleteAccount = "DELETE FROM card WHERE number = ?";
 
         try (Connection con = dataSource.getConnection()) {
             if (con.isValid(5)) {

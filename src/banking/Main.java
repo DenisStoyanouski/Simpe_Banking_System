@@ -138,8 +138,9 @@ public class Main {
                     System.out.println();
                     break;
                 case "2" : addIncome();
-                break;
+                    break;
                 case "4" : closeAccount(cardNumber);
+                            return;
                 case "5":
                     System.out.println("You have successfully logged out!");
                     break;
