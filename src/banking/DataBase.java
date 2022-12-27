@@ -150,7 +150,7 @@ public class DataBase {
         String cardTo = input();
         if (Objects.equals(cardTo, cardNumber)) {
             System.out.println("You can't transfer money to the same account!");
-        } else if (!cardTo.matches("\\d{16,19}") || !Objects.equals(generateChecksum(cardTo.substring(0, cardTo.length() - 2)),cardTo)) {
+        } else if (!cardTo.matches("\\d{16,19}") || !Objects.equals(generateChecksum(cardTo.substring(0, cardTo.length() - 1)),cardTo)) {
             System.out.println("Probably you made a mistake in the card number. Please try again!");
         } else if (!checkByNumber(cardTo)) {
             System.out.println("Such a card does not exist.");
