@@ -135,7 +135,7 @@ public class Main {
                     System.out.printf("Balance: %d", getBalance(cardNumber));
                     System.out.println();
                     break;
-                case "2" : addIncome();
+                case "2" : addIncome(cardNumber);
                     break;
                 case "3" : doTransfer(cardNumber);
                     break;

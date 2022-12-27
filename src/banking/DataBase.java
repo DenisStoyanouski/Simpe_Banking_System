@@ -100,25 +100,12 @@ public class DataBase {
         return balance;
     }
 
-    static void addIncome() {
+    static void addIncome(String cardNumber) {
         int income = 0;
         System.out.println("Enter income:");
         try {
             income = Integer.parseInt(input());
-
-            String insertIncome = "UPDATE card SET balance = ?";
-            try (Connection con = dataSource.getConnection()) {
-                if (con.isValid(5)) {
-                    try (PreparedStatement statement = con.prepareStatement(insertIncome)) {
-                        statement.setInt(1, income);
-                        statement.executeUpdate();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            changeBalance(cardNumber, income, "+");
             System.out.println("Income was added!");
         } catch (NumberFormatException e) {
             System.out.println("You entered not number. Try again");
