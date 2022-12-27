@@ -143,5 +143,14 @@ public class DataBase {
 
     }
 
+    static void doTransfer(String cardNumber) {
+        System.out.println("Transfer");
+        System.out.println("Enter card number");
+        String cardTo = input();
+        if (Objects.equals(cardTo, cardNumber)) {
+            System.out.println("You can't transfer money to the same account!");
+        }
+
+    }
 
 }

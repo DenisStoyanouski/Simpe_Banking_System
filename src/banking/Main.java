@@ -139,6 +139,8 @@ public class Main {
                     break;
                 case "2" : addIncome();
                     break;
+                case "3" : doTransfer(cardNumber);
+                    break;
                 case "4" : closeAccount(cardNumber);
                             return;
                 case "5":
