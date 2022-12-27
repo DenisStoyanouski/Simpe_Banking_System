@@ -155,27 +155,28 @@ public class DataBase {
         } else if (!checkByNumber(cardTo)) {
             System.out.println("Such a card does not exist.");
         } else {
-            System.out.println("Enter how much money you want to transfer");
+            System.out.println("Enter how much money you want to transfer:");
             String input = input();
             if (input.matches("\\d*")) {
-                int transfer = Integer.parseInt(input());
-                if (transfer >= getBalance(cardNumber)) {
+                int transfer = Integer.parseInt(input);
+                if (transfer <= getBalance(cardNumber)) {
                     changeBalance(cardNumber, transfer, "-");
                     changeBalance(cardTo, transfer, "+");
                     System.out.println("Success!");
+                } else {
+                    System.out.println("Not enough money!");
                 }
             }
         }
     }
 
     private static void changeBalance(String cardNumber, int transfer, String s) {
-        String insertIncome = "UPDATE card SET balance = balance ? ? WHERE number = ?";
+        String insertIncome = String.format("UPDATE card SET balance = balance %s ? WHERE number = ?", s);
         try (Connection con = dataSource.getConnection()) {
             if (con.isValid(5)) {
                 try (PreparedStatement statement = con.prepareStatement(insertIncome)) {
-                    statement.setString(1, s);
                     statement.setInt(1, transfer);
-                    statement.setString(1, cardNumber);
+                    statement.setString(2, cardNumber);
                     statement.executeUpdate();
                 } catch (SQLException e) {
                     e.printStackTrace();

@@ -141,9 +141,8 @@ public class Main {
                     break;
                 case "4" : closeAccount(cardNumber);
                             return;
-                case "5":
-                    System.out.println("You have successfully logged out!");
-                    break;
+                case "5": System.out.println("You have successfully logged out!");
+                            return;
                 case "0" : exit();
                     break;
             }
