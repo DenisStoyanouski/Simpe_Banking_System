@@ -104,25 +104,24 @@ public class DataBase {
         System.out.println("Enter income:");
         try {
             income = Integer.parseInt(input());
-        } catch (NumberFormatException e) {
-            System.out.println("Enter number");
-        }
-        String insertIncome = "UPDATE card SET balance = ?";
-        try (Connection con = dataSource.getConnection()) {
-            if (con.isValid(5)) {
-                try (PreparedStatement statement = con.prepareStatement(insertIncome)) {
-                    statement.setInt(1, income);
-                    statement.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+
+            String insertIncome = "UPDATE card SET balance = ?";
+            try (Connection con = dataSource.getConnection()) {
+                if (con.isValid(5)) {
+                    try (PreparedStatement statement = con.prepareStatement(insertIncome)) {
+                        statement.setInt(1, income);
+                        statement.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Income was added");
+        } catch (NumberFormatException e) {
+            System.out.println("You entered not number. Try again");
         }
-
-
-        System.out.println("Income was added");
     }
 
 

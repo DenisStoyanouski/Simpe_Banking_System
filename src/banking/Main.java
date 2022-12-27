@@ -145,7 +145,7 @@ public class Main {
                 case "0" : exit();
                     break;
             }
-        } while (!"2".equals(input));
+        } while (!"0".equals(input));
     }
 
     private static void exit() {
