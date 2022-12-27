@@ -99,7 +99,7 @@ public class DataBase {
         return balance;
     }
 
-    static void addIncome(String cardNumber) {
+    static void addIncome() {
         int income = 0;
         System.out.println("Enter income:");
         try {
@@ -122,6 +122,25 @@ public class DataBase {
         } catch (NumberFormatException e) {
             System.out.println("You entered not number. Try again");
         }
+    }
+
+    static void closeAccount(String cardNumber) {
+        String deleteAccount = "DELETE * FROM card WHERE number = '?'";
+
+        try (Connection con = dataSource.getConnection()) {
+            if (con.isValid(5)) {
+                try (PreparedStatement statement = con.prepareStatement(deleteAccount)) {
+                    statement.setString(1, cardNumber);
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("The account has been closed!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

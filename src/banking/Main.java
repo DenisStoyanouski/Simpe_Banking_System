@@ -137,8 +137,9 @@ public class Main {
                     System.out.printf("Balance: %d", getBalance(cardNumber, pin));
                     System.out.println();
                     break;
-                case "2" : addIncome(cardNumber);
+                case "2" : addIncome();
                 break;
+                case "4" : closeAccount(cardNumber);
                 case "5":
                     System.out.println("You have successfully logged out!");
                     break;
