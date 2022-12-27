@@ -1,5 +1,7 @@
 package banking;
 
+import org.sqlite.SQLiteDataSource;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -121,9 +123,13 @@ public class Main {
     private static void startAccount(String cardNumber, String pin) {
         String input;
         do {
-            String accountMenu = "1. Balance\n" +
-                                "2. Log out\n" +
-                                "0. Exit\n";
+            String accountMenu =
+                    "1. Balance\n" +
+                    "2. Add income\n" +
+                    "3. Do transfer\n" +
+                    "4. Close account\n" +
+                    "5. Log out\n" +
+                            "0. Exit\n";
             System.out.println(accountMenu);
             input = input();
             switch(input) {
@@ -131,7 +137,9 @@ public class Main {
                     System.out.printf("Balance: %d", getBalance(cardNumber, pin));
                     System.out.println();
                     break;
-                case "2":
+                case "2" : addIncome(cardNumber);
+                break;
+                case "5":
                     System.out.println("You have successfully logged out!");
                     break;
                 case "0" : exit();
@@ -145,7 +153,7 @@ public class Main {
         System.exit(0);
     }
 
-    private static String input() {
+    static String input() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
