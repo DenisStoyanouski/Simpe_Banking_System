@@ -68,7 +68,11 @@ public class Main {
     }
 
     static String generateChecksum(String cardNumber) {
-        ArrayList<Integer> number = new ArrayList<>(Arrays.stream(cardNumber.split("")).map(Integer::parseInt).collect(Collectors.toList()));
+        ArrayList<Integer> number = new ArrayList<>(Arrays.stream(cardNumber.split(""))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList()));
+
+
         // The Luhn algorithm
         // Multiply odd indexes by 2
         for (int i = 0; i < number.size(); i += 2) {

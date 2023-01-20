@@ -2,6 +2,7 @@ package banking;
 
 import org.sqlite.SQLiteDataSource;
 
+import java.io.File;
 import java.sql.*;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ public class DataBase {
     static SQLiteDataSource dataSource;
     static void createDB (String fileName) {
 
-        url = String.format("jdbc:sqlite:./%s", fileName);
+        url = String.format("jdbc:sqlite:.%s%s", File.separator, fileName);
 
         dataSource = new SQLiteDataSource();
 
